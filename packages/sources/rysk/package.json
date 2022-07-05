@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/uniswap-v3-adapter",
+  "name": "@chainlink/rysk",
   "version": "1.2.0",
-  "description": "Chainlink uniswap-v3 adapter.",
+  "description": "Chainlink rysk adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "uniswap-v3"
+    "rysk"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
