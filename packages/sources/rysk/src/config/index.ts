@@ -18,6 +18,8 @@ export const DEFAULT_PROTOCOL_CONTRACT = '0x0'
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider
   network: string
+  underlyingAsset: string
+  strikeAsset: string
   protocolAddress: string
 }
 
