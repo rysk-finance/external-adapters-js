@@ -40,6 +40,8 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-typescript": "7.16.7",
     "@changesets/cli": "2.18.1",
+    "@ethersproject/abi": "^5.6.4",
+    "@ethersproject/providers": "^5.6.8",
     "@types/jest": "27.0.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",

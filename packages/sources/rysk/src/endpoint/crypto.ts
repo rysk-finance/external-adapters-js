@@ -26,6 +26,7 @@ export interface ResponseSchema {
 export type TInputParameters = {
   strikeAsset: string
   underlyingAsset: string
+  protocolAddress: string
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   strikeAsset: {
@@ -40,6 +41,12 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description: 'The underlying asset of the liquidity pool',
     type: 'string',
   },
+  protocolAddress: {
+    aliases: ['protocol'],
+    required: true,
+    description: 'The address of the protocol contract',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -49,7 +56,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const strikeAsset = validator.validated.data.strikeAsset
   const underlyingAsset = validator.validated.data.underlyingAsset
-  const output = await fetchPortfolioValues(strikeAsset, underlyingAsset, config)
+  const protocolAddress = validator.validated.data.protocolAddress
+  const output = await fetchPortfolioValues(strikeAsset, underlyingAsset, protocolAddress, config)
   //const output = await getBestRate(from, to, amount, feeTiers, config)
 
   if (output.eq(0)) {
@@ -57,8 +65,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const data: ResponseSchema = {
-    input: amount.toString(),
-    inputToken: from,
+    strikeAsset,
+    underlyingAsset,
     inputDecimals: fromDecimals,
     output: output.toString(),
     outputToken: to,
@@ -81,6 +89,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 const fetchPortfolioValues = async (
   strikeAsset: string,
   underlyingAsset: string,
+  protocolAddress: string,
   config: Config,
 ) => {
   const protocolContract = new ethers.Contract(

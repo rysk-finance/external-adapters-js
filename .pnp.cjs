@@ -605,6 +605,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/renvm-address-set"\
       },\
       {\
+        "name": "@chainlink/rysk",\
+        "reference": "workspace:packages/sources/rysk"\
+      },\
+      {\
         "name": "@chainlink/satoshitango-adapter",\
         "reference": "workspace:packages/sources/satoshitango"\
       },\
@@ -876,6 +880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],\
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
+      ["@chainlink/rysk", ["workspace:packages/sources/rysk"]],\
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
       ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
@@ -922,6 +927,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.16.11"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.16.7"],\
             ["@changesets/cli", "npm:2.18.1"],\
+            ["@ethersproject/abi", "npm:5.6.4"],\
+            ["@ethersproject/providers", "npm:5.6.8"],\
             ["@types/babel__core", "npm:7.1.19"],\
             ["@types/babel__preset-env", "npm:7.9.2"],\
             ["@types/eslint", "npm:7.29.0"],\
@@ -5465,6 +5472,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.16.11"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.16.7"],\
             ["@changesets/cli", "npm:2.18.1"],\
+            ["@ethersproject/abi", "npm:5.6.4"],\
+            ["@ethersproject/providers", "npm:5.6.8"],\
             ["@types/babel__core", "npm:7.1.19"],\
             ["@types/babel__preset-env", "npm:7.9.2"],\
             ["@types/eslint", "npm:7.29.0"],\
@@ -6569,6 +6578,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/rysk", [\
+        ["workspace:packages/sources/rysk", {\
+          "packageLocation": "./packages/sources/rysk/",\
+          "packageDependencies": [\
+            ["@chainlink/rysk", "workspace:packages/sources/rysk"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.0.3"],\
+            ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["decimal.js", "npm:10.3.1"],\
+            ["dotenv", "npm:16.0.1"],\
+            ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.6"],\
+            ["supertest", "npm:6.2.3"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7755,6 +7785,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-abi-npm-5.6.3-f3252931b0-64b89ca153.zip/node_modules/@ethersproject/abi/",\
           "packageDependencies": [\
             ["@ethersproject/abi", "npm:5.6.3"],\
+            ["@ethersproject/address", "npm:5.6.1"],\
+            ["@ethersproject/bignumber", "npm:5.6.2"],\
+            ["@ethersproject/bytes", "npm:5.6.1"],\
+            ["@ethersproject/constants", "npm:5.6.1"],\
+            ["@ethersproject/hash", "npm:5.6.1"],\
+            ["@ethersproject/keccak256", "npm:5.6.1"],\
+            ["@ethersproject/logger", "npm:5.6.0"],\
+            ["@ethersproject/properties", "npm:5.6.0"],\
+            ["@ethersproject/strings", "npm:5.6.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.6.4", {\
+          "packageLocation": "./.yarn/cache/@ethersproject-abi-npm-5.6.4-8b86ffab11-b5e70fa13a.zip/node_modules/@ethersproject/abi/",\
+          "packageDependencies": [\
+            ["@ethersproject/abi", "npm:5.6.4"],\
             ["@ethersproject/address", "npm:5.6.1"],\
             ["@ethersproject/bignumber", "npm:5.6.2"],\
             ["@ethersproject/bytes", "npm:5.6.1"],\
@@ -16948,6 +16994,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["dot-prop", "npm:5.3.0"],\
             ["is-obj", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["dotenv", [\
+        ["npm:16.0.1", {\
+          "packageLocation": "./.yarn/cache/dotenv-npm-16.0.1-d99e72bb95-f459ffce07.zip/node_modules/dotenv/",\
+          "packageDependencies": [\
+            ["dotenv", "npm:16.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31636,6 +31691,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
+        ["patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-dd6b7c0390-365df18cf9.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353", {\
           "packageLocation": "./.yarn/cache/typescript-patch-e8b9857d0c-9096d8f6c1.zip/node_modules/typescript/",\
           "packageDependencies": [\
