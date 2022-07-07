@@ -15,6 +15,7 @@ import { OptionRegistry as IOptionRegistry } from '../types/OptionRegistry'
 import { LiquidityPool as ILiquidityPool } from '../types/LiquidityPool'
 import { PriceFeed as IPriceFeed } from '../types/PriceFeed'
 import { AddressBookInterface as IAddressBook } from '../types/AddressBookInterface'
+import { getPortfolioValues, PortfolioValues } from './portfolioValues'
 import { ethers } from 'ethers'
 
 export const description = 'Computes greeks and the value of calls and puts in a liquidity pool'
@@ -70,8 +71,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const strikeAsset = validator.validated.data.strikeAsset
   const underlyingAsset = validator.validated.data.underlyingAsset
   const protocolAddress = validator.validated.data.protocolAddress
-  const output = await fetchPortfolioValues(strikeAsset, underlyingAsset, protocolAddress, config)
-  //const output = await getBestRate(from, to, amount, feeTiers, config)
+  const { portfolioDelta, portfolioGamma, portfolioTheta, portfolioVega, callsPutsValue } =
+    await fetchPortfolioValues(config)
 
   if (output.eq(0)) {
     throw new Error('Quoted output was zero. This pool or fee tier may not exist')
@@ -80,11 +81,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const data: ResponseSchema = {
     strikeAsset,
     underlyingAsset,
-    inputDecimals: fromDecimals,
-    output: output.toString(),
-    outputToken: to,
-    outputDecimals: toDecimals,
-    rate: rate.toNumber(),
+    portfolioDelta,
+    portfolioGamma,
+    portfolioTheta,
+    portfolioVega,
+    callsPutsValue,
   }
 
   const response = {
@@ -99,7 +100,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
-const fetchPortfolioValues = async (config: Config) => {
+const fetchPortfolioValues = async (config: Config): Promise<PortfolioValues> => {
   const protocolContract = new ethers.Contract(
     config.protocolAddress,
     Protocol.abi,
@@ -125,6 +126,7 @@ const fetchPortfolioValues = async (config: Config) => {
   ) as ILiquidityPool
   const poolUnderlying = await liquidityPoolContract.underlyingAsset()
   const poolStrike = await liquidityPoolContract.strikeAsset()
+  // check to make sure the underlying and strike assets resolve from protocol
   if (poolUnderlying !== config.underlyingAsset) throw new Error('Underlying asset mismatch')
   if (poolStrike !== config.strikeAsset) throw new Error('Strike asset mismatch')
   const addressBookAddress = await optionRegistryContract.addressBook()
@@ -141,4 +143,12 @@ const fetchPortfolioValues = async (config: Config) => {
     NewController.abi,
     config.provider,
   ) as INewController
+  const output = await getPortfolioValues(
+    liquidityPoolContract,
+    controllerContract,
+    optionRegistryContract,
+    priceFeedContract,
+    oracleContract,
+  )
+  return output
 }
