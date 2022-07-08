@@ -28,13 +28,17 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.2.0",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/test-helpers": "^0.0.7-alpha",
     "@ethersproject/abi": "^5.6.4",
     "@ethersproject/providers": "^5.6.8",
+    "black-scholes": "^1.1.0",
     "decimal.js": "^10.3.1",
     "dotenv": "^16.0.1",
     "ethers": "^5.4.6",
+    "greeks": "^1.0.0",
+    "hardhat": "^2.10.0",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
