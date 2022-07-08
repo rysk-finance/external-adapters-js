@@ -318,7 +318,6 @@ async function getContractsState(
   liquidityPool: LiquidityPool,
   priceFeed: PriceFeed,
   optionRegistry: OptionRegistry,
-  controller: NewController,
 ): Promise<ContractsState> {
   const utilizationCurve: UtilizationCurve = await getUtilizationCurve(liquidityPool)
   const collateralAssetAddress = await liquidityPool.collateralAsset()
@@ -526,7 +525,6 @@ export async function getPortfolioValues(
     liquidityPool,
     priceFeed,
     optionRegistry,
-    controller,
   )
 
   const blockNum = await ethers.provider.getBlockNumber()
