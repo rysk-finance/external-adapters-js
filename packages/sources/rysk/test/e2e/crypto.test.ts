@@ -10,7 +10,7 @@ const id = '1'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8546/'
+  process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/'
 
   describe('validation error', () => {
     const requests = [
@@ -45,12 +45,14 @@ describe('execute', () => {
   })
 
   describe('endpoint testing', () => {
+    // using dynamic-hedging local node at commit: 0cf1a20ed07342da2c6cb64c0fe9afe00b275407
+    // populate node state first
     const data: AdapterRequest = {
       id,
       data: {
-        underlyingAsset: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // WETH
-        strikeAsset: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // USDC
-        protocolAddress: '0x0',
+        underlyingAsset: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH
+        strikeAsset: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
+        protocolAddress: '0xFD2Cf3b56a73c75A7535fFe44EBABe7723c64719',
       },
     }
 
@@ -61,6 +63,7 @@ describe('execute', () => {
         const res = await execute(data as AdapterRequest, {})
         console.log({ res })
       } catch (error) {
+        console.log({ error })
         const errorResp = Requester.errored(jobID, error)
         assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
       }

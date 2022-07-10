@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import Protocol from '../abis/Protocol.json'
@@ -23,7 +23,7 @@ export const description = 'Computes greeks and the value of calls and puts in a
 export const supportedEndpoints = ['crypto']
 
 export const endpointResultPaths = {
-  crypto: 'portfolio values',
+  crypto: 'callsPutsValue',
 }
 
 export interface ResponseSchema {
@@ -70,13 +70,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const strikeAsset = validator.validated.data.strikeAsset
   const underlyingAsset = validator.validated.data.underlyingAsset
-  const protocolAddress = validator.validated.data.protocolAddress
   const { portfolioDelta, portfolioGamma, portfolioTheta, portfolioVega, callsPutsValue } =
-    await fetchPortfolioValues(config)
-
-  if (output.eq(0)) {
-    throw new Error('Quoted output was zero. This pool or fee tier may not exist')
-  }
+    await fetchPortfolioValues(request, config)
 
   const data: ResponseSchema = {
     strikeAsset,
@@ -100,7 +95,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
-const fetchPortfolioValues = async (config: Config): Promise<PortfolioValues> => {
+const fetchPortfolioValues = async (
+  request: AdapterRequest,
+  config: Config,
+): Promise<PortfolioValues> => {
   const protocolContract = new ethers.Contract(
     config.protocolAddress,
     Protocol.abi,
@@ -127,8 +125,8 @@ const fetchPortfolioValues = async (config: Config): Promise<PortfolioValues> =>
   const poolUnderlying = await liquidityPoolContract.underlyingAsset()
   const poolStrike = await liquidityPoolContract.strikeAsset()
   // check to make sure the underlying and strike assets resolve from protocol
-  if (poolUnderlying !== config.underlyingAsset) throw new Error('Underlying asset mismatch')
-  if (poolStrike !== config.strikeAsset) throw new Error('Strike asset mismatch')
+  if (poolUnderlying !== request.data.underlyingAsset) throw new Error('Underlying asset mismatch')
+  if (poolStrike !== request.data.strikeAsset) throw new Error('Strike asset mismatch')
   const addressBookAddress = await optionRegistryContract.addressBook()
   const addressBookContract = new ethers.Contract(
     addressBookAddress,
@@ -149,6 +147,7 @@ const fetchPortfolioValues = async (config: Config): Promise<PortfolioValues> =>
     optionRegistryContract,
     priceFeedContract,
     oracleContract,
+    config.provider,
   )
   return output
 }

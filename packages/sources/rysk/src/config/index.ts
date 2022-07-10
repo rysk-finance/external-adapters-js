@@ -13,7 +13,7 @@ export const ENV_FEE_TIERS = 'DEFAULT_FEE_TIERS'
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'arbitrum'
 
-export const DEFAULT_PROTOCOL_CONTRACT = '0x0'
+export const DEFAULT_PROTOCOL_CONTRACT = '0xFD2Cf3b56a73c75A7535fFe44EBABe7723c64719'
 
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider
@@ -31,6 +31,6 @@ export const makeConfig: ConfigFactory<Config> = (prefix: string | undefined) =>
       util.getRequiredEnvWithFallback(ENV_ETHEREUM_RPC_URL, [ENV_FALLBACK_RPC_URL], prefix),
     ),
     network: util.getEnv(ENV_BLOCKCHAIN_NETWORK, prefix) || DEFAULT_BLOCKCHAIN_NETWORK,
-    protocolContract: util.getEnv(ENV_PROTOCOL_CONTRACT, prefix) || DEFAULT_PROTOCOL_CONTRACT,
+    protocolAddress: util.getEnv(ENV_PROTOCOL_CONTRACT, prefix) || DEFAULT_PROTOCOL_CONTRACT,
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-ignore
-import { ethers } from 'hardhat'
+import { ethers } from 'ethers'
 //@ts-ignore
 import greeks from 'greeks'
 //@ts-ignore
@@ -495,7 +495,6 @@ function calculateOptionQuote(
     localBS,
     utilizationCurve,
   )
-  console.log({ utilizationBefore, utilizationAfter, utilizationPrice })
   // if delta exposure reduces, subtract delta skew from  pricequotes
   if (portfolioDeltaIsDecreased) return utilizationPrice - utilizationPrice * deltaTiltAmount
   return utilizationPrice + utilizationPrice * deltaTiltAmount
@@ -520,6 +519,7 @@ export async function getPortfolioValues(
   optionRegistry: OptionRegistry,
   priceFeed: PriceFeed,
   opynOracle: Oracle,
+  provider: ethers.providers.Provider,
 ): Promise<PortfolioValues> {
   const contractsState: ContractsState = await getContractsState(
     liquidityPool,
@@ -527,8 +527,8 @@ export async function getPortfolioValues(
     optionRegistry,
   )
 
-  const blockNum = await ethers.provider.getBlockNumber()
-  const block = await ethers.provider.getBlock(blockNum)
+  const blockNum = await provider.getBlockNumber()
+  const block = await provider.getBlock(blockNum)
   const { timestamp } = block
 
   // index liquidated vault registrations by vaultId
