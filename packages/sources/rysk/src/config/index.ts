@@ -14,6 +14,7 @@ export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'arbitrum'
 
 export const DEFAULT_PROTOCOL_CONTRACT = '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
+export const VERBOSE_RESPONSE = true
 
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider
@@ -32,5 +33,6 @@ export const makeConfig: ConfigFactory<Config> = (prefix: string | undefined) =>
     ),
     network: util.getEnv(ENV_BLOCKCHAIN_NETWORK, prefix) || DEFAULT_BLOCKCHAIN_NETWORK,
     protocolAddress: util.getEnv(ENV_PROTOCOL_CONTRACT, prefix) || DEFAULT_PROTOCOL_CONTRACT,
+    verbose: VERBOSE_RESPONSE,
   }
 }

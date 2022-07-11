@@ -6,6 +6,15 @@ import { makeExecute } from '../../src/adapter'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
 import * as process from 'process'
 
+const dataKeys = [
+  'strikeAsset',
+  'underlyingAsset',
+  'portfolioDelta',
+  'portfolioGamma',
+  'portfolioTheta',
+  'portfolioVega',
+  'callsPutsValue',
+]
 const id = '1'
 describe('execute', () => {
   const jobID = '1'
@@ -62,7 +71,12 @@ describe('execute', () => {
       const execute = makeExecute()
       try {
         const res = await execute(data as AdapterRequest, {})
-        console.log({ res })
+        if (!res.result) {
+          throw new Error('no result')
+        }
+        dataKeys.forEach((k) => {
+          expect(res.data[k]).toBeDefined()
+        })
       } catch (error) {
         console.log({ error })
         const errorResp = Requester.errored(jobID, error)
