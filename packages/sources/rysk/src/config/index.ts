@@ -13,7 +13,7 @@ export const ENV_FEE_TIERS = 'DEFAULT_FEE_TIERS'
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'arbitrum'
 
-export const DEFAULT_PROTOCOL_CONTRACT = '0xFD2Cf3b56a73c75A7535fFe44EBABe7723c64719'
+export const DEFAULT_PROTOCOL_CONTRACT = '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
 
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider

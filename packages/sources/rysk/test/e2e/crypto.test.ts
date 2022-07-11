@@ -46,13 +46,14 @@ describe('execute', () => {
 
   describe('endpoint testing', () => {
     // using dynamic-hedging local node at commit: 0cf1a20ed07342da2c6cb64c0fe9afe00b275407
-    // populate node state first
+    // populate node state first with: "npx hardhat test ./test/OracleCoreLogic.ts --network localhost"
+    // local node must be running at: http://localhost:8545/ prior to running the test
     const data: AdapterRequest = {
       id,
       data: {
         underlyingAsset: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH
         strikeAsset: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
-        protocolAddress: '0xFD2Cf3b56a73c75A7535fFe44EBABe7723c64719',
+        protocolAddress: '0xeF31027350Be2c7439C1b0BE022d49421488b72C',
       },
     }
 
