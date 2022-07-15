@@ -51,13 +51,6 @@ export type BlackScholesCalcArgs = [
   BigNumberish,
   BigNumberish,
 ]
-const sum = function (array: [number]) {
-  let total = 0
-  for (let i = 0; i < array.length; i++) {
-    total += array[i]
-  }
-  return total
-}
 
 export const parseTokenAmount = (value: BigNumberish, decimals: number) =>
   BigNumber.from(value).mul(BigNumber.from(10).pow(BigNumber.from(decimals)))

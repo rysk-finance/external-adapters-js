@@ -1,6 +1,6 @@
 import { AdapterRequest, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName, Config } from '../config'
+import { Config } from '../config'
 import Protocol from '../abis/Protocol.json'
 import OptionRegistry from '../abis/OptionRegistry.json'
 import { Protocol as IProtocol } from '../types/Protocol'

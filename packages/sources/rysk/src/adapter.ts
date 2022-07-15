@@ -24,8 +24,12 @@ export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = as
 export const endpointSelector = (
   request: AdapterRequest,
 ): APIEndpoint<Config, endpoints.TInputParameters> =>
-  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(
+    request,
+    makeConfig(undefined),
+    endpoints,
+  )
 
 export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
-  return async (request, context) => execute(request, context, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig(undefined))
 }
