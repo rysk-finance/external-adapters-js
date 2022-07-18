@@ -1,10 +1,11 @@
-import 'dotenv/config'
+import * as dotenv from 'dotenv'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
 import * as process from 'process'
+dotenv.config({ debug: true })
 
 const dataKeys = [
   'strikeAsset',
@@ -57,12 +58,17 @@ describe('execute', () => {
     // using dynamic-hedging local node at commit: 0cf1a20ed07342da2c6cb64c0fe9afe00b275407
     // populate node state first with: "npx hardhat test ./test/OracleCoreLogic.ts --network localhost"
     // local node must be running at: http://localhost:8545/ prior to running the test
+    const protocolAddress =
+      process.env['PROTOCOL_ADDRESS'] || '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
+    const underlyingAsset =
+      process.env['UNDERLYING_ASSET'] || '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2' // WETH
+    const strikeAsset = process.env['STRIKE_ASSET'] || '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' // USDC
     const data: AdapterRequest = {
       id,
       data: {
-        underlyingAsset: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH
-        strikeAsset: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
-        protocolAddress: '0xeF31027350Be2c7439C1b0BE022d49421488b72C',
+        underlyingAsset,
+        strikeAsset,
+        protocolAddress,
       },
     }
 

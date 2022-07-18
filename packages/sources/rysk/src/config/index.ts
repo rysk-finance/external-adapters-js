@@ -16,14 +16,6 @@ export const DEFAULT_BLOCKCHAIN_NETWORK = 'arbitrum'
 export const DEFAULT_PROTOCOL_CONTRACT = '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
 export const VERBOSE_RESPONSE = true
 
-/* export type Config = BaseConfig & {
-  provider: ethers.providers.Provider
-  network: string
-  underlyingAsset: string
-  strikeAsset: string
-  protocolAddress: string
-} */
-
 export type Config = BaseConfig & {
   defaultEndpoint: string
   provider: ethers.providers.Provider
