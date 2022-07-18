@@ -18,6 +18,7 @@ const dataKeys = [
 ]
 const id = '1'
 describe('execute', () => {
+  jest.setTimeout(50000)
   const jobID = '1'
   const execute = makeExecute()
   process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/'
@@ -59,10 +60,10 @@ describe('execute', () => {
     // populate node state first with: "npx hardhat test ./test/OracleCoreLogic.ts --network localhost"
     // local node must be running at: http://localhost:8545/ prior to running the test
     const protocolAddress =
-      process.env['PROTOCOL_ADDRESS'] || '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
+      process.env['PROTOCOL_ADDRESS'] || '0x2AeDFAd2A01a87A1cE9e57a4de757aAC5d715D52'
     const underlyingAsset =
-      process.env['UNDERLYING_ASSET'] || '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2' // WETH
-    const strikeAsset = process.env['STRIKE_ASSET'] || '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' // USDC
+      process.env['UNDERLYING_ASSET'] || '0xE32513090f05ED2eE5F3c5819C9Cce6d020Fefe7' // WETH
+    const strikeAsset = process.env['STRIKE_ASSET'] || '0x3C6c9B6b41B9E0d82FeD45d9502edFFD5eD3D737' // USDC
     const data: AdapterRequest = {
       id,
       data: {

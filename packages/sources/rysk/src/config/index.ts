@@ -13,7 +13,7 @@ export const ENV_FEE_TIERS = 'DEFAULT_FEE_TIERS'
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'arbitrum'
 
-export const DEFAULT_PROTOCOL_CONTRACT = '0xeF31027350Be2c7439C1b0BE022d49421488b72C'
+export const DEFAULT_PROTOCOL_CONTRACT = '0x2AeDFAd2A01a87A1cE9e57a4de757aAC5d715D52'
 export const VERBOSE_RESPONSE = true
 
 export type Config = BaseConfig & {
