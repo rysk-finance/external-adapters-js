@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { BigNumber, BigNumberish, utils } from 'ethers'
+import fromExponential from 'from-exponential'
 
 export const formatEth = (x: BigNumberish) => Number(utils.formatEther(x))
 export function truncate(num: number, places: number = 3): number {
@@ -10,7 +11,8 @@ export const tFormatEth = (x: BigNumberish, places: number = 3): number =>
 export const toWei = (x: string) => utils.parseEther(numberStringFormatter(x))
 const numberStringFormatter = (x: string) => {
   // having more than 18 decimal places will cause the BN library to throw an error
-  const split = x.split('.')
+  const deExp = fromExponential(x)
+  const split = deExp.split('.')
   if (split[1] && split[1].length > 18) {
     return `${split[0]}.${split[1].substring(0, 18)}`
   }
