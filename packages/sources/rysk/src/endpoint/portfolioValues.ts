@@ -94,12 +94,13 @@ type ContractsState = {
   optionsContractSettledEvents: OptionsContractSettledEvent[]
 }
 export type PortfolioValues = {
-  portfolioDelta: number
-  portfolioGamma: number
-  portfolioVega: number
-  portfolioTheta: number
-  callsPutsValue: number
-  bsCallsPutsValue: number
+  portfolioDelta: string
+  portfolioGamma: string
+  portfolioVega: string
+  portfolioTheta: string
+  callsPutsValue: string
+  bsCallsPutsValue: string
+  spotPrice: string
 }
 const ZERO: BigNumber = BigNumber.from(0)
 
@@ -454,7 +455,7 @@ function getUtilizationPrice(
  * @param optionDelta - delta of the option being written not adjusted for amount
  * @param lpUSDBalance - USD balance of the liquidity pool
  * @param maxDiscount - Max discount that will be applied in the tilt factor as defined in the liquidity pool
- * @returns option quote based on utilization
+ * @returns optionQuote
  */
 function calculateOptionQuote(
   greekVariables: GreekVariables,
@@ -505,13 +506,7 @@ function calculateOptionQuote(
  * @typeParam optionRegistry - Instance of the option registry
  * @typeParam priceFeed - Instance of the price feed
  * @typeParam opynOracle - Instance of the opyn oracle
- * @returns {{
- *  portfolioDelta: number,
- *  portfolioGamma: number,
- *  portfolioTheta: number,
- *  portfolioVega: number,
- *  callsPutsValue: number,
- *  bsCallsPutsValue: number }}
+ * @returns portfolioValues
  */
 export async function getPortfolioValues(
   liquidityPool: LiquidityPool,
@@ -602,12 +597,14 @@ export async function getPortfolioValues(
     (total, num) => total + (num.utilizationQuote || 0),
     0,
   )
-  return {
-    portfolioDelta,
-    portfolioGamma,
-    portfolioTheta,
-    portfolioVega,
-    callsPutsValue,
-    bsCallsPutsValue,
+  const output = {
+    portfolioDelta: toWei(portfolioDelta.toString()).toString(),
+    portfolioGamma: toWei(portfolioGamma.toString()).toString(),
+    portfolioTheta: toWei(portfolioTheta.toString()).toString(),
+    portfolioVega: toWei(portfolioVega.toString()).toString(),
+    callsPutsValue: toWei(callsPutsValue.toString()).toString(),
+    bsCallsPutsValue: toWei(bsCallsPutsValue.toString()).toString(),
+    spotPrice: contractsState.priceQuote.toString(),
   }
+  return output
 }

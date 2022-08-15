@@ -30,11 +30,12 @@ export interface ResponseSchema {
   strikeAsset: string
   underlyingAsset: string
   // outputs are:
-  portfolioDelta: number
-  portfolioGamma: number
-  portfolioTheta: number
-  portfolioVega: number
-  callsPutsValue: number
+  portfolioDelta: string
+  portfolioGamma: string
+  portfolioTheta: string
+  portfolioVega: string
+  callsPutsValue: string
+  spotPrice: string
 }
 
 export type TInputParameters = {
@@ -70,8 +71,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const strikeAsset = validator.validated.data.strikeAsset
   const underlyingAsset = validator.validated.data.underlyingAsset
-  const { portfolioDelta, portfolioGamma, portfolioTheta, portfolioVega, callsPutsValue } =
-    await fetchPortfolioValues(request, config)
+  const {
+    portfolioDelta,
+    portfolioGamma,
+    portfolioTheta,
+    portfolioVega,
+    callsPutsValue,
+    spotPrice,
+  } = await fetchPortfolioValues(request, config)
 
   const data: ResponseSchema = {
     strikeAsset,
@@ -81,6 +88,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     portfolioTheta,
     portfolioVega,
     callsPutsValue,
+    spotPrice,
   }
 
   const response = {
