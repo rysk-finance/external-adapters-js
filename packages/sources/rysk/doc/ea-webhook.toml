@@ -1,0 +1,19 @@
+type = "webhook"
+schemaVersion = 1
+name = "EA-v1"
+externalJobID = "792480b9-436a-4651-893d-372bc3329f23"
+observationSource = """
+fetch             [type=bridge name="rysk-external-adapter" requestData="{\\"id\\": \\"jobIb\\", \\"data\\": { \\"underlyingAsset\\": \\"0xE32513090f05ED2eE5F3c5819C9Cce6d020Fefe7\\", \\"strikeAsset\\": \\"0x3C6c9B6b41B9E0d82FeD45d9502edFFD5eD3D737\\", \\"protocolAddress\\": \\"0x2AeDFAd2A01a87A1cE9e57a4de757aAC5d715D52\\"}}"]
+callsPutsValue    [type=jsonparse path="result" data="$(fetch)"]
+delta             [type=jsonparse path="data,portfolioDelta" data="$(fetch)"]
+gamma             [type=jsonparse path="data,portfolioGamma" data="$(fetch)"]
+theta             [type=jsonparse path="data,portfolioTheta" data="$(fetch)"]
+vega              [type=jsonparse path="data,portfolioVega" data="$(fetch)"]
+spotPrice         [type=jsonparse path="data,spotPrice" data="$(fetch)"]
+encode_tx         [type="ethabiencode"
+                  abi="fulfill(bytes32 _requestId, address _underlying, address _strike, int256 _delta, int256 _gamma, int256 _vega, int256 _theta, uint256 _callPutsValue, uint256 _spotPrice)"
+                  data="{\\"_requestId\\": \\"31000000000000000000000000000000\\", \\"_underlying\\": \\"0xE32513090f05ED2eE5F3c5819C9Cce6d020Fefe7\\", \\"_strike\\": \\"0x3C6c9B6b41B9E0d82FeD45d9502edFFD5eD3D737\\", \\"_delta\\": $(delta), \\"_gamma\\": $(gamma), \\"_vega\\": $(vega), \\"_theta\\": $(theta), \\"_callPutsValue\\": $(callsPutsValue), \\"_spotPrice\\": $(spotPrice)}"]
+submit_tx         [type=ethtx to="0xbE1EDd48504828322452bEcC5F6eB0476bf71e89" data="$(encode_tx)"]
+
+fetch -> callsPutsValue -> delta -> gamma -> theta -> vega -> spotPrice -> encode_tx -> submit_tx
+"""
