@@ -71,11 +71,12 @@ Every External Adapter has some optional environment variables for customizing b
 
 ### Run as HTTP server
 
-Use the start command while in the directory of the adapter that you would like to run. For example:
+Build the adapter then use the start command with the RPC ENV parameter passed in while in the directory of the adapter that you would like to run. For example:
 
 ```sh
-cd packages/sources/coingecko
-yarn start
+cd packages/sources/rysk
+yarn build
+ETHEREUM_RPC_URL=http://*.*.*.*/ yarn start
 ```
 
 ### Run as Docker Container
